@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
+import site.metacoding.white.domain.BoardRepository;
 import site.metacoding.white.service.BoardService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +24,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class BoardAPIController {
 
     private final BoardService boardService;
+    private final BoardRepository boardRepository;
+
+    @GetMapping("/api/v1/board")
+    public List<Board> findallV1() {
+        return boardService.findAll();
+    }
 
     @DeleteMapping("/board/{id}")
     public String deleteBoard(@PathVariable Long id) {

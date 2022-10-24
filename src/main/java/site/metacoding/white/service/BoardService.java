@@ -24,7 +24,7 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    // @Transactional 셀렉트엔 트랜잭션 필요없음 상식적으로
+    @Transactional // 셀렉트엔 트랜잭션 필요없음 상식적으로
     public Board findById(long id) {
         return boardRepository.findById(id);
     }
