@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
+import site.metacoding.white.dto.boardReqDto.BoardSaveDto;
 
 @RequiredArgsConstructor
 @Service // 스프링 ioc 메모리에 무조건 등록해야 됨
@@ -20,7 +21,11 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public void save(Board board) {
+    public void save(BoardSaveDto boardSaveDto) {
+        Board board = new Board();
+        board.setTitle(boardSaveDto.getTitle());
+        board.setContent(boardSaveDto.getContent());
+        board.setUser(boardSaveDto.getServiceDto().getUser());
         boardRepository.save(board);
     }
 
@@ -38,8 +43,8 @@ public class BoardService {
         // throw new RuntimeException("없는 데이터다");
         boardPS.setTitle(board.getTitle());
         boardPS.setContent(board.getContent());
-        boardPS.setAuthor(board.getAuthor()); // 영속화된 데이터를 들어온 데이터로 수정함 => PC 에 있는 boardPS가 수정되고
-                                              // 트랜잭션이 종료되면 자동으로 flush되기 때문에, 업데이트 처리가 됨
+        // 영속화된 데이터를 들어온 데이터로 수정함 => PC 에 있는 boardPS가 수정되고
+        // 트랜잭션이 종료되면 자동으로 flush되기 때문에, 업데이트 처리가 됨
     } // == 트랜잭션 종료시 더티체킹 함, 모아놨다 한 번에 처리함 = 하이버네이트 기술
 
     public List<Board> findAll() {

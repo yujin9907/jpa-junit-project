@@ -3,6 +3,7 @@ package site.metacoding.white.web;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
+import site.metacoding.white.domain.User;
+import site.metacoding.white.dto.boardReqDto.BoardSaveDto;
+import site.metacoding.white.dto.boardReqDto.BoardSaveDto.ServiceDto;
 import site.metacoding.white.service.BoardService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +28,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class BoardAPIController {
 
     private final BoardService boardService;
-    private final BoardRepository boardRepository;
+    private final HttpSession session;
+
+    @PostMapping("/v2/board")
+    public String saveBoardV2(@RequestBody BoardSaveDto boardSaveDto) {
+        // 공공데이터, 소켓으로 받아오는 거 했던 게 머임?
+        User principal = (User) session.getAttribute("principal");
+        boardSaveDto.newInstance();
+        boardSaveDto.getServiceDto().setUser(principal);
+        boardService.save(boardSaveDto);
+        return "ok";
+    }
 
     @GetMapping("/api/v1/board")
     public List<Board> findallV1() {
@@ -42,11 +56,11 @@ public class BoardAPIController {
         return boardService.findAll();
     }
 
-    @PostMapping("/board")
-    public String saveBoard(@RequestBody Board board) {
-        boardService.save(board);
-        return "ok";
-    }
+    // @PostMapping("/board")
+    // public String saveBoard(@RequestBody Board board) {
+    // boardService.save(board);
+    // return "ok";
+    // }
 
     @GetMapping("/board/{id}")
     public Board findByIdBoard(@PathVariable long id) {

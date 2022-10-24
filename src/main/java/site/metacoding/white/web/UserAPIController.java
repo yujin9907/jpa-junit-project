@@ -3,6 +3,7 @@ package site.metacoding.white.web;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserAPIController {
 
     private final UserService userService;
+    private final HttpSession session;
 
     @PostMapping("/join")
     public String save(@RequestBody User user) {
@@ -35,7 +37,8 @@ public class UserAPIController {
 
     @PostMapping("/login") // assertcation 관련된 (로그인 관련된) 인증은 도메인명 붙이지 않음.
     public String login(@RequestBody User user) {
-        userService.login(user);
+        User userPS = userService.login(user);
+        session.setAttribute("principal", userPS);
         return "ok";
     }
 }
