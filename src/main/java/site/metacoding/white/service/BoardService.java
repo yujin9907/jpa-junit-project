@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
-import site.metacoding.white.dto.BoardReqDto.BoardSaveReqDto;
 import site.metacoding.white.dto.BoardRespDto.BoardSaveRespDto;
+import site.metacoding.white.dto.boardReqDto.BoardSaveDto;
 
 // 트랜잭션 관리
 // DTO 변환해서 컨트롤러에게 돌려줘야함
@@ -21,9 +21,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public BoardSaveRespDto save(BoardSaveReqDto boardSaveReqDto) {
+    public BoardSaveRespDto save(BoardSaveDto boardSaveDto) {
         // 핵심 로직
-        Board boardPS = boardRepository.save(boardSaveReqDto.toEntity());
+        Board boardPS = boardRepository.save(boardSaveDto.toEntity());
 
         // DTO 전환
         BoardSaveRespDto boardSaveRespDto = new BoardSaveRespDto(boardPS);
