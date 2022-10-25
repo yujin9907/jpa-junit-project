@@ -1,38 +1,28 @@
 package site.metacoding.white.dto;
 
+import javax.websocket.Session;
+
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.white.domain.Board;
-import site.metacoding.white.domain.User;
 
 public class boardReqDto {
-
-    // static을 붙였으므로, boardReqDto를 new 하지 않아도 찾을 수 있음
     @Getter
     @Setter
-    public static class BoardSaveDto {
+    public static class BoardSaveReqDto {
         private String title;
         private String content;
-
-        // 클라이언트한테 받는 게 아님
-        @Setter
-        @Getter
-        public class ServiceDto {
-            private User user;
-        }
-
-        private ServiceDto serviceDto;
-
-        public void newInstance() {
-            serviceDto = new ServiceDto();
-        }
+        private SessionUser sessionUser;
 
         public Board toEntity() {
-            return null;
+            Board board = new Board().builder()
+                    .title(title)
+                    .content(content)
+                    .user(sessionUser.toEntity())
+                    .build();
+            return board;
         }
 
     }
-
-    // 필요한 dto 여기다 추가로
 
 }

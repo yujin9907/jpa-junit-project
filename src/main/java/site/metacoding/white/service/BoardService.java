@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
 import site.metacoding.white.dto.BoardRespDto.BoardSaveRespDto;
-import site.metacoding.white.dto.boardReqDto.BoardSaveDto;
+import site.metacoding.white.dto.boardReqDto.BoardSaveReqDto;
 
 // 트랜잭션 관리
 // DTO 변환해서 컨트롤러에게 돌려줘야함
@@ -21,9 +21,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public BoardSaveRespDto save(BoardSaveDto boardSaveDto) {
+    public BoardSaveRespDto save(BoardSaveReqDto boardRSaveReqDto) {
         // 핵심 로직
-        Board boardPS = boardRepository.save(boardSaveDto.toEntity());
+        Board boardPS = boardRepository.save(boardRSaveReqDto.toEntity());
 
         // DTO 전환
         BoardSaveRespDto boardSaveRespDto = new BoardSaveRespDto(boardPS);
