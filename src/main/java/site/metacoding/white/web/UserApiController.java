@@ -21,6 +21,9 @@ public class UserAPIController {
     private final UserService userService;
     private final HttpSession session;
 
+    // 회원 정보 수정
+    // 회원 정보 확인
+
     @PostMapping("/join")
     public ResponseDto<?> save(@RequestBody JoinReqDto joinReqDto) {
         JoinRespDto joinRespDto = userService.save(joinReqDto);

@@ -25,4 +25,21 @@ public class boardReqDto {
 
     }
 
+    @Getter
+    @Setter
+    public static class BoardUpdateReqDto {
+        private String title;
+        private String content;
+        private Long id;
+
+        public Board toEntity() {
+            Board board = new Board().builder()
+                    .title(title)
+                    .content(content)
+                    .id(id)
+                    .build();
+            return board;
+        }
+
+    }
 }

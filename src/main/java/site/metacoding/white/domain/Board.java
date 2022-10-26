@@ -1,5 +1,8 @@
 package site.metacoding.white.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.aspectj.weaver.ArrayAnnotationValue;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +28,9 @@ public class Board {
     private String title;
     @Column(length = 1000)
     private String content;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     // FK가 만들어짐. user_id
     @ManyToOne(fetch = FetchType.LAZY)
