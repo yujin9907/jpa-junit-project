@@ -35,6 +35,14 @@ public class CommentService {
         return commentSaveRespDto;
     }
 
+    @Transactional
+    public void deleteById(Long id) {
+        Comment commentOP = commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException());
+
+        commentRepository.deleteById(id);
+    }
+
     // @Transactional
     // public void deleteById(Long id) {
     // boardRepository.findById(id)

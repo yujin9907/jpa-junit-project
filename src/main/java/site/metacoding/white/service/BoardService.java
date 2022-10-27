@@ -66,8 +66,6 @@ public class BoardService {
 
     public List<Board> findAll() {
         List<Board> boardList = boardRepository.findAll();
-        // 1. for문 : dto로 바꿔주기 위함
-        // 2. 결과를 리스트에 담기
 
         List<BoardListRespDto> boardListRespDtos = new ArrayList<>();
         for (Board boardPS : boardList) {

@@ -1,8 +1,9 @@
 package site.metacoding.white.web;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +26,11 @@ public class CommentAPIController {
         SessionUser user = (SessionUser) session.getAttribute("sessionUser");
         commentSaveReqDto.setSessionUser(user);
         return new ResponseDto<>(1, "성공", commentService.save(commentSaveReqDto));
+    }
+
+    @DeleteMapping("/comment/{id}")
+    public ResponseDto<?> deleteById(@PathVariable Long id) {
+        commentService.deleteById(id);
+        return new ResponseDto<>(null, null, null);
     }
 }
