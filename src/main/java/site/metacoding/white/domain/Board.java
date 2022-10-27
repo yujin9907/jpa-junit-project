@@ -17,6 +17,7 @@ import org.aspectj.weaver.ArrayAnnotationValue;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.metacoding.white.dto.BoardRespDto.BoardDetailRespDto.CommentDto;
 
 @NoArgsConstructor
 @Getter
@@ -30,7 +31,7 @@ public class Board {
     private String content;
 
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comment = new ArrayList<>();
 
     // FK가 만들어짐. user_id
     @ManyToOne(fetch = FetchType.LAZY)

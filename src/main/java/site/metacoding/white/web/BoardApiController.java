@@ -41,6 +41,7 @@ public class BoardAPIController {
         return new ResponseDto<>(1, "성공", boardSaveRespDto);
     }
 
+    // 게시물 상세보기 = 보드 + 유저 + 커멘트
     @GetMapping("/board/{id}")
     public ResponseDto<?> findById(@PathVariable Long id) {
         return new ResponseDto<>(1, "성공", boardService.findById(id)); // Entity -> JSON 변경 (MessageConverter)

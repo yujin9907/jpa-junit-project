@@ -20,6 +20,7 @@ public class BoardRepository {
         return board;
     }
 
+    // 게시물 상세보기 : 보드+유저+커멘트 => 3중 조인
     public Optional<Board> findById(Long id) {
         // JPQL 문법
         // Board boardPS = em.createQuery("select b from Board b where b.id = :id",
@@ -39,14 +40,17 @@ public class BoardRepository {
         // Board.class)
         // .setParameter("id", id)
         // .getSingleResult();
+        try {
+            Optional<Board> boardOP = Optional.of(em
+                    .createQuery("select b from Board b join fetch b.user u join fetch b.comment c where b.id = :id",
+                            Board.class)
+                    .setParameter("id", id)
+                    .getSingleResult());
 
-        Optional<Board> boardOP = Optional.of(em
-                .createQuery("select b from Board b where b.id = :id",
-                        Board.class)
-                .setParameter("id", id)
-                .getSingleResult());
-
-        return boardOP;
+            return boardOP;
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public List<Board> findAll() {

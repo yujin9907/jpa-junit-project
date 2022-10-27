@@ -1,5 +1,8 @@
 package site.metacoding.white.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +13,7 @@ import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.metacoding.white.dto.BoardRespDto.BoardDetailRespDto.CommentDto;
 
 @NoArgsConstructor
 @Entity
