@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,8 @@ import com.jayway.jsonpath.JsonPath;
 import site.metacoding.white.dto.UserReqDto.JoinReqDto;
 import site.metacoding.white.service.UserService;
 
+// 설정파일 생성 후 테스트시 적용할 어플리케이션.yml 설정해주는 건데, 오류남
+@ActiveProfiles("test")
 // 통합 테스트
 // 테스트 전엔 회원가입의 주소 하나 테스트하려고 오만 인풋 다 넣고 버튼 눌러서 터지는지 안 터지는지.. ㅇㅈㄹ함
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
