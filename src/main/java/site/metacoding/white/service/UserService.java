@@ -1,5 +1,7 @@
 package site.metacoding.white.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,7 +11,9 @@ import site.metacoding.white.domain.UserRepository;
 import site.metacoding.white.dto.SessionUser;
 import site.metacoding.white.dto.UserReqDto.JoinReqDto;
 import site.metacoding.white.dto.UserReqDto.LoginReqDto;
+import site.metacoding.white.dto.UserReqDto.UserUpdateReqDto;
 import site.metacoding.white.dto.UserRespDto.JoinRespDto;
+import site.metacoding.white.dto.UserRespDto.UserUpdateRespDto;
 import site.metacoding.white.util.SHA256;
 
 // 트랜잭션 관리
@@ -49,4 +53,15 @@ public class UserService {
         }
     } // 트랜잭션 종료
 
+    @Transactional
+    public UserUpdateRespDto update(UserUpdateReqDto updateReqDto) {
+        // db 널값 처리
+        Optional<User> userOP = userRepository.findById(updateReqDto.getId());
+        userOP.orElseThrow(() -> new RuntimeException("오류"));
+
+        // 비지니스 로직
+        userOP.get().Update(updateReqDto.getUsername());
+
+        return new UserUpdateRespDto(userOP.get());
+    }
 }

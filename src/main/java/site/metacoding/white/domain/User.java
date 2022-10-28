@@ -30,4 +30,8 @@ public class User {
         this.password = password;
     }
 
+    public void Update(String username) {
+        this.username = username;
+    }
+
 }

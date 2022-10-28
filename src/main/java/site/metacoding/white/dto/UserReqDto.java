@@ -1,6 +1,7 @@
 package site.metacoding.white.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.white.domain.User;
 
@@ -22,6 +23,18 @@ public class UserReqDto {
     public static class LoginReqDto {
         private String username;
         private String password;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class UserUpdateReqDto {
+        private Long id; // 서비스로직으로부터
+        private String username; // 클라이언트로부터
+
+        public UserUpdateReqDto(Long id) {
+            this.id = id;
+        }
     }
 
 }
