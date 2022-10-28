@@ -120,7 +120,7 @@ public class UserApiControllerTest {
         // rt 안에 다양한 방법이 있는데 이게 제일 편함
         ResponseEntity<String> response = rt.exchange("/login", HttpMethod.POST,
                 request, String.class);
-        System.out.println("디버그" + response.getClass());
+        System.out.println("디버그" + response.getBody());
 
         // then
         DocumentContext dc = JsonPath.parse(response.getBody());
