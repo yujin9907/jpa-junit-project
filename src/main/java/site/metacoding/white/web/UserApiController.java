@@ -31,12 +31,12 @@ public class UserApiController {
         return new ResponseDto<>(1, "ok", joinRespDto);
     }
 
-    @PostMapping("/login")
-    public ResponseDto<?> login(@RequestBody LoginReqDto loginReqDto) {
-        SessionUser sessionUser = userService.login(loginReqDto);
-        session.setAttribute("sessionUser", sessionUser);
-        return new ResponseDto<>(1, "ok", sessionUser);
-    }
+    // @PostMapping("/login")
+    // public ResponseDto<?> login(@RequestBody LoginReqDto loginReqDto) {
+    // SessionUser sessionUser = userService.login(loginReqDto);
+    // session.setAttribute("sessionUser", sessionUser);
+    // return new ResponseDto<>(1, "ok", sessionUser);
+    // }
 
     // 회원정보 수정
     @PutMapping("/user/{id}")

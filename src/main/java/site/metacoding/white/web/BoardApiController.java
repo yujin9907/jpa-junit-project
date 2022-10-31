@@ -81,4 +81,5 @@ public class BoardApiController {
     // // 날라감)
     // return "ok";
     // }
+
 }
