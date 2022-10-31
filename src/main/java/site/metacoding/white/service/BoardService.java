@@ -84,9 +84,16 @@ public class BoardService {
 
     // delete는 리턴 안함.
     @Transactional
-    public void deleteById(Long id) {
+    public void deleteById(Long id, Long sessionUserId) {
+        log.debug("디버그 : " + id);
         Optional<Board> boardOP = boardRepository.findById(id);
+        log.debug("디버그 : " + boardOP);
         if (boardOP.isPresent()) {
+            Board boardPS = boardOP.get();
+            if (boardPS.getUser().getId() != sessionUserId) {
+                throw new RuntimeException("해당 아이디를 삭제할 권한이 없습니다"); // jwt 필터 적용시, 세션은 rep->res까지 통신 과정까지 잠깐 담아두는 주머니.
+                                                                    // statefull과 관련 없음
+            }
             boardRepository.deleteById(id);
         } else {
             throw new RuntimeException("해당 " + id + "로 삭제를 할 수 없습니다.");

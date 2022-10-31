@@ -60,10 +60,7 @@ public class BoardApiController {
     @DeleteMapping("/s/board/{id}")
     public ResponseDto<?> deleteById(@PathVariable Long id) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new RuntimeException("로그인이 필요합니다.");
-        }
-        boardService.deleteById(id);
+        boardService.deleteById(id, sessionUser.getId());
         return new ResponseDto<>(1, "성공", null);
     }
 

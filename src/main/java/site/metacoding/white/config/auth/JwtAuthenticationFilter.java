@@ -73,8 +73,8 @@ public class JwtAuthenticationFilter implements Filter { // javax.servlete 서�
         }
 
         // 비밀번호 체크
-        SHA256 sh = new SHA256();
-        String encPassword = sh.encrypt(loginReqDto.getPassword());
+        // SHA256 sh = new SHA256();
+        String encPassword = loginReqDto.getPassword();
         if (!userPS.getPassword().equals(encPassword)) {
             customResponse("비밀번호 오류", resp);
             return;
