@@ -28,10 +28,15 @@ import site.metacoding.white.dto.SessionUser;
 import site.metacoding.white.dto.UserReqDto.LoginReqDto;
 import site.metacoding.white.util.SHA256;
 
-// /hello 요청시
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter implements Filter { // javax.servlete 서블릿톰캣 필터 임포트 주의
+
+    // 필터는 무조건 하나 실행됨으로 전역 변수로 om을 띄워주거나 그런 식으로 하지 않음
+    // 세션, 동시성 처리, 읽기 전용 쓰기 전용 그런 처리는 ...?
+    // 메서드가 동시에 실행될때
+    // 병렬적 처리, 동기화가 돼있으면 문제가 안 됨...
+    // 라이브러리가 파악이 안 된 상태에선 내부적으로 스레드를 만드는지 동기화하는지 알아 봐야 됨
 
     private final UserRepository userRepository; // DI 필터 컨피그로부터 주입받음
 
@@ -58,7 +63,7 @@ public class JwtAuthenticationFilter implements Filter { // javax.servlete 서�
         LoginReqDto loginReqDto = om.readValue(req.getInputStream(), LoginReqDto.class); // om 사용 없이 그냥 json으로 하면, 버퍼리더를
                                                                                          // 통해 스트림 안 값 읽어오고, while을 통해
                                                                                          // 한줄씩 내려가며 값을 받아줘야 됨
-        log.debug("디버그 : " + loginReqDto.getUsername());
+        // log.debug("디버그 : " + loginReqDto.getUsername());
 
         // 유저 존재하는지 체크
         User userPS = userRepository.findByUsername(loginReqDto.getUsername());
@@ -94,7 +99,7 @@ public class JwtAuthenticationFilter implements Filter { // javax.servlete 서�
     // } 리턴을 수행해야 되기 때문에 메서드로 빼지 않음
 
     private void customResponse(String msg, HttpServletResponse resp) throws IOException, JsonProcessingException {
-        resp.setContentType("application/json:charset=utf-8");
+        resp.setContentType("application/json; charset=utf-8");
         PrintWriter out = resp.getWriter(); // 직접 버퍼 라이트를 생성함
         resp.setStatus(400); // 디폴트가 200으로 응답되기 때문에 설정을 따로 해줌
         ResponseDto<?> responseDto = new ResponseDto<>(-1, msg, null);
@@ -107,7 +112,7 @@ public class JwtAuthenticationFilter implements Filter { // javax.servlete 서�
     // 로그인 인증 성공 후 토큰 응답을 위한 오버로딩? 라이딩이었나?
     private void customJWTResponse(String msg, String token, User user, HttpServletResponse resp)
             throws IOException, JsonProcessingException {
-        resp.setContentType("application/json:charset=utf-8");
+        resp.setContentType("application/json; charset=utf-8");
         resp.setHeader("Authorization", "Bearer " + token); // 띄어쓰기까지 정확히 적어야 됨
         PrintWriter out = resp.getWriter(); // 직접 버퍼 라이트를 생성함
         resp.setStatus(200); // 디폴트가 200으로 응답되기 때문에 설정을 따로 해줌
